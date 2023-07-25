@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="x_snc_reactor_component">
+    <x_snc_reactor_component action="INSERT_OR_UPDATE">
+        <content_css/>
+        <dependencies>4afcbdbc97907110a6a07767f053af70</dependencies>
+        <description/>
+        <jsx>true</jsx>
+        <name>KolibriDemoApp</name>
+        <role>app</role>
+        <script><![CDATA[class KolibriDemoApp extends ReactorComponent
+{
+	constructor(props)
+	{
+		super(props);
+		this.state = { clicked: false };
+		this.onClick = this.onClick.bind(this);
+	}
+
+	componentDidMount()
+	{
+	}
+
+	componentWillUnmount()
+	{
+	}
+
+	onClick()
+	{
+		this.setState( {clicked: true} );
+		if (typeof this.props.callbackOnClick == 'function')
+		{
+			this.props.callbackOnClick();
+		}
+		else if (this.props.text != '')
+		{
+			DoModalMessage('New Reactor component',this.props.text);
+		}
+		else
+		{
+			DoModalMessage('New Reactor component','The button was clicked!');
+		}
+	}
+
+	render()
+	{
+		/*
+		return e('button',
+			{
+				onClick: this.onClick
+			},
+			'Click me!');*/
+		
+		return (
+			<StrictMode>
+				<LeanupForm />
+				<KolButton
+					_label="test"
+					_on={{
+						 onClick: console.log
+						}}
+					_value={[]}
+				/>
+				<kol-button
+					_label="test"
+					_value="{[]}"
+					onClick={console.log}
+				></kol-button>
+        </StrictMode>
+		);
+	}	
+}]]></script>
+        <source_type>ui_script</source_type>
+        <sys_class_name>x_snc_reactor_component</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2023-07-25 11:38:22</sys_created_on>
+        <sys_id>15fd3dfc97907110a6a07767f053aff4</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>KolibriDemoApp</sys_name>
+        <sys_package display_value="KoliBri WORK IN PROGRESS" source="x_snc_kolibri">bdfb7d3c97907110a6a07767f053af62</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="KoliBri WORK IN PROGRESS">bdfb7d3c97907110a6a07767f053af62</sys_scope>
+        <sys_update_name>x_snc_reactor_component_15fd3dfc97907110a6a07767f053aff4</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2023-07-25 11:44:29</sys_updated_on>
+        <type>script</type>
+        <ui_script display_value="x_snc_kolibri.KoliBriDemoApp">6b9df5fc97907110a6a07767f053afbc</ui_script>
+        <url/>
+    </x_snc_reactor_component>
+</record_update>
