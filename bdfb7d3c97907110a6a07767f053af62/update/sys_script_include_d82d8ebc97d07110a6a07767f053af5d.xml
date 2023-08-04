@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_snc_kolibri.AppBuilder</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description>Builds the KoliBri application.</description>
+        <name>AppBuilder</name>
+        <script><![CDATA[function AppBuilder()
+{
+	x_snc_devtools.AppBuilder('x_snc_kolibri'); 	
+}]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2023-07-25 12:44:48</sys_created_on>
+        <sys_id>d82d8ebc97d07110a6a07767f053af5d</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>AppBuilder</sys_name>
+        <sys_package display_value="KoliBri WORK IN PROGRESS" source="x_snc_kolibri">bdfb7d3c97907110a6a07767f053af62</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="KoliBri WORK IN PROGRESS">bdfb7d3c97907110a6a07767f053af62</sys_scope>
+        <sys_update_name>sys_script_include_d82d8ebc97d07110a6a07767f053af5d</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2023-07-25 12:44:48</sys_updated_on>
+    </sys_script_include>
+</record_update>
