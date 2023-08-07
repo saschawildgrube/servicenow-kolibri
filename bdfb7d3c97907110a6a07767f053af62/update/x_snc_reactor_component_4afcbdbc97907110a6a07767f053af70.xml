@@ -2,26 +2,33 @@
     <x_snc_reactor_component action="INSERT_OR_UPDATE">
         <content_css/>
         <dependencies/>
-        <description>Loading the Kolibri React components from the jsdeliver CDN.</description>
+        <description>Loading the Kolibri React components from the CDN.</description>
         <jsx>false</jsx>
+        <module>true</module>
         <name>KolibriCDN</name>
         <role>api</role>
-        <script/>
-        <source_type>url</source_type>
+        <script><![CDATA[//import leanupkolibriReact from 'https://cdn.jsdelivr.net/npm/@leanup/kolibri-react@1.0/+esm'
+//https://esm.sh/@public-ui/react@1.5.3
+//import * from 'https://esm.sh/@public-ui/react@1.5.3';
+import { register } from 'https://esm.sh/@public-ui/components';
+import { defineCustomElements } from 'https://esm.sh/@public-ui/components/dist/loader';
+import { ITZBund } from 'https://esm.sh/@public-ui/themes';
+register(ITZBund, defineCustomElements).catch(console.warn);]]></script>
+        <source_type>ui_script</source_type>
         <sys_class_name>x_snc_reactor_component</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2023-07-25 11:34:45</sys_created_on>
         <sys_id>4afcbdbc97907110a6a07767f053af70</sys_id>
-        <sys_mod_count>2</sys_mod_count>
+        <sys_mod_count>7</sys_mod_count>
         <sys_name>KolibriCDN</sys_name>
         <sys_package display_value="KoliBri WORK IN PROGRESS" source="x_snc_kolibri">bdfb7d3c97907110a6a07767f053af62</sys_package>
         <sys_policy/>
         <sys_scope display_value="KoliBri WORK IN PROGRESS">bdfb7d3c97907110a6a07767f053af62</sys_scope>
         <sys_update_name>x_snc_reactor_component_4afcbdbc97907110a6a07767f053af70</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2023-07-25 11:35:37</sys_updated_on>
+        <sys_updated_on>2023-08-05 10:59:41</sys_updated_on>
         <type>script</type>
-        <ui_script/>
+        <ui_script display_value="x_snc_kolibri.KolibriCDN">b5b779581bec3d10cd6153d16b4bcb3c</ui_script>
         <url>https://cdn.jsdelivr.net/npm/@leanup/kolibri-react@1.0.5/cjs/index.min.js</url>
     </x_snc_reactor_component>
 </record_update>

@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?><record_update table="x_snc_reactor_component">
     <x_snc_reactor_component action="INSERT_OR_UPDATE">
         <content_css/>
-        <dependencies>b348dfc41ba43d10cd6153d16b4bcb2e</dependencies>
+        <dependencies>4afcbdbc97907110a6a07767f053af70</dependencies>
         <description/>
-        <jsx>true</jsx>
+        <jsx>false</jsx>
         <module>false</module>
         <name>KolibriDemoApp</name>
         <role>app</role>
-        <script><![CDATA[class KoliBriDemoApp extends ReactorComponent
+        <script><![CDATA[//import { KolSpin } from '@public-ui/react';
+class KoliBriDemoApp extends ReactorComponent
 {
 	constructor(props)
 	{
@@ -45,13 +46,15 @@
 
 	render()
 	{
-		/*
-		return e('button',
-			{
-				onClick: this.onClick
-			},
-			'Click me!');*/
 		
+		return e('div',
+			{
+			},
+			[
+				e('KolSpin',{},null)
+			]);
+		
+		/*
 		return (
 			<StrictMode>
 				<LeanupForm />
@@ -68,7 +71,13 @@
 					onClick={console.log}
 				></kol-button>
 			</StrictMode>
+			<div>
+				<h1>KoliBri Demo App</h1>
+				<KolSpin _show />
+			</div>
+			
 		);
+		*/
 	}	
 }]]></script>
         <source_type>ui_script</source_type>
@@ -76,14 +85,14 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2023-07-25 11:38:22</sys_created_on>
         <sys_id>15fd3dfc97907110a6a07767f053aff4</sys_id>
-        <sys_mod_count>2</sys_mod_count>
+        <sys_mod_count>6</sys_mod_count>
         <sys_name>KolibriDemoApp</sys_name>
         <sys_package display_value="KoliBri WORK IN PROGRESS" source="x_snc_kolibri">bdfb7d3c97907110a6a07767f053af62</sys_package>
         <sys_policy/>
         <sys_scope display_value="KoliBri WORK IN PROGRESS">bdfb7d3c97907110a6a07767f053af62</sys_scope>
         <sys_update_name>x_snc_reactor_component_15fd3dfc97907110a6a07767f053aff4</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2023-08-04 20:37:47</sys_updated_on>
+        <sys_updated_on>2023-08-05 10:25:14</sys_updated_on>
         <type>script</type>
         <ui_script display_value="x_snc_kolibri.KoliBriDemoApp">6b9df5fc97907110a6a07767f053afbc</ui_script>
         <url/>
