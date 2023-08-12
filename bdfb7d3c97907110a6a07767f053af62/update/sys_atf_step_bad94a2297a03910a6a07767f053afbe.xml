@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_atf_step">
+    <sys_atf_step action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <copied_from/>
+        <description>Performs sanity checks on the app.
+</description>
+        <display_name>DevTools - Check scoped app sanity</display_name>
+        <inputs/>
+        <mugshots_cache_json/>
+        <notes/>
+        <order>1</order>
+        <step_config display_value="DevTools - Check scoped app sanity">786a921f1b6c2090a89720a8ec4bcbc9</step_config>
+        <sys_class_name>sys_atf_step</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2023-08-12 09:15:04</sys_created_on>
+        <sys_id>bad94a2297a03910a6a07767f053afbe</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>DevTools - Check scoped app sanity</sys_name>
+        <sys_package display_value="KoliBri WORK IN PROGRESS" source="x_snc_kolibri">bdfb7d3c97907110a6a07767f053af62</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="KoliBri WORK IN PROGRESS">bdfb7d3c97907110a6a07767f053af62</sys_scope>
+        <sys_update_name>sys_atf_step_bad94a2297a03910a6a07767f053afbe</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2023-08-12 09:15:04</sys_updated_on>
+        <table/>
+        <test display_value="KoliBri - Implementation">f06d8efc97d07110a6a07767f053af55</test>
+        <timeout/>
+        <warning_message/>
+    </sys_atf_step>
+    <sys_variable_value action="delete_multiple" query="document_key=bad94a2297a03910a6a07767f053afbe"/>
+</record_update>
