@@ -20,7 +20,8 @@
         <runtime_access_tracking>permissive</runtime_access_tracking>
         <scope>x_snc_kolibri</scope>
         <scoped_administration>false</scoped_administration>
-        <short_description>Build React applications based on the KoliBri UI Framework directly in ServiceNow.</short_description>
+        <short_description>Build React applications based on the KoliBri UI Framework directly in ServiceNow.&#13;
+Create applications that are accessible to everyone.</short_description>
         <source>x_snc_kolibri</source>
         <store_correlation_id/>
         <store_url/>
@@ -29,9 +30,9 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2023-07-25 11:29:17</sys_created_on>
         <sys_id>bdfb7d3c97907110a6a07767f053af62</sys_id>
-        <sys_mod_count>4</sys_mod_count>
+        <sys_mod_count>5</sys_mod_count>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2023-07-25 11:52:38</sys_updated_on>
+        <sys_updated_on>2023-08-14 15:29:07</sys_updated_on>
         <template/>
         <trackable>true</trackable>
         <uninstall_blocked>false</uninstall_blocked>
