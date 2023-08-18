@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ui_script">
+    <sys_ui_script action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <description>A React app to demonstrate the use of KoliBri web components which that can switch between different themes.</description>
+        <global>false</global>
+        <ignore_in_now_experience>false</ignore_in_now_experience>
+        <name>x_snc_kolibri.KoliBriDemoApp</name>
+        <script><![CDATA[class KoliBriDemoApp extends ReactorComponent
+{
+	constructor(props)
+	{
+		super(props);
+		var strTheme = GetStringValue(this.props.theme);
+		if (strTheme == '')
+		{
+			strTheme = 'bmf';
+		}
+		this.state = {
+			state: 'start',
+			theme: strTheme
+		};
+		//BindAllFunctionsToThis(this);
+		this.onClickThemeDE = this.onClickThemeDE.bind(this);
+		this.onClickThemeITZBUND = this.onClickThemeITZBUND.bind(this);
+		this.onClickThemeBMF = this.onClickThemeBMF.bind(this);
+		this.onClickThemeECLEC = this.onClickThemeECLEC.bind(this);
+		this.onClickThemeECLEU = this.onClickThemeECLEU.bind(this);
+
+	}
+
+	componentDidMount()
+	{
+	}
+
+	componentWillUnmount()
+	{
+	}
+	
+	onClickThemeDE()
+	{
+		this.setState( {theme: 'de', state: 'changetheme' } );
+	}
+	onClickThemeITZBUND()
+	{
+		this.setState( {theme: 'itzbund', state: 'changetheme' } );
+	}
+	onClickThemeBMF()
+	{
+		this.setState( { theme: 'bmf', state: 'changetheme' } );
+	}	
+	onClickThemeECLEC()
+	{
+		this.setState( { theme: 'ecl-ec', state: 'changetheme' } );
+	}	
+	onClickThemeECLEU()
+	{
+		this.setState( { theme: 'ecl-eu', state: 'changetheme' } );
+	}	
+	
+	stateStart()
+	{
+		return (
+			<div data-theme={ this.state.theme }>
+				<kol-heading _level="1" _label="KoliBri Demo App"></kol-heading>
+				<kol-button _label="BMF" _value="itzbund" onClick={ this.onClickThemeBMF }/>
+				<kol-button _label="DE" _value="itzbund" onClick={ this.onClickThemeDE }/>
+				<kol-button _label="ITZBund" _value="itzbund" onClick={ this.onClickThemeITZBUND }/>
+				<kol-button _label="ECL_EC" _value="ecl-ec" onClick={ this.onClickThemeECLEC }/>
+				<kol-button _label="ECL_EU" _value="ecl-eu" onClick={ this.onClickThemeECLEU }/>
+			
+				<kol-heading _level="2" _label="Alert"></kol-heading>
+				<kol-alert _label="Überschrift im Alert" _level="1" _type="success" _variant="msg">Textbereich im Alert</kol-alert>
+				<kol-alert _label="Überschrift im Alert" _level="2" _type="info" _variant="card">Textbereich im Alert</kol-alert>					
+					
+				<kol-heading _level="2" _label="Breadcrump"></kol-heading>
+				<kol-breadcrumb _links='[{"_label":"Startseite","_href":"#/"},{"_label":"Unterseite von Startseite","_href":"#/unterseite"}]'></kol-breadcrumb>
+				<kol-heading _level="2" _label="Button"></kol-heading>
+				<kol-button _label="Test" onClick={ this.onClick }/>
+				<kol-heading _level="2" _label="Spin"></kol-heading>
+				<kol-spin _show/>
+					
+					
+				<kol-kolibri></kol-kolibri>
+
+			</div>
+		);	
+	}
+	
+	stateChangeTheme()
+	{
+		this.setState( { state: 'start' } );
+		return e(Centered,{},[
+			e('kol-spin',{ _show: true },null)]);
+	}
+	
+	render()
+	{
+		
+		if (this.state.state == 'changetheme')
+		{
+			return this.stateChangeTheme();
+		}
+		
+		return this.stateStart();
+		
+
+		/*
+		var themeOptions = [
+			{'label':'ITZBund','value':'0'},
+			{'label':'BMF','value':'1'},
+			{'label':'ECL-EC','value':'2'}
+			];
+			*/
+		
+		//var strOptions = JSON.stringify(themeOptions);
+
+		/*
+		
+		_rows="4"
+						_multiple
+		*/
+		
+	/*
+						<kol-select
+						_options="[{'label':'ITZBund','value':'0'},{'label':'BMF','value':'1'},{'label':'ECL-EC','value':'2'}]"
+						_value="['0']"
+						>
+						Theme
+					</kol-select>
+	*/
+		
+	}	
+}]]></script>
+        <script_name>KoliBriDemoApp</script_name>
+        <sys_class_name>sys_ui_script</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2023-07-25 11:36:58</sys_created_on>
+        <sys_id>6b9df5fc97907110a6a07767f053afbc</sys_id>
+        <sys_mod_count>86</sys_mod_count>
+        <sys_name>x_snc_kolibri.KoliBriDemoApp</sys_name>
+        <sys_package display_value="KoliBri" source="x_snc_kolibri">bdfb7d3c97907110a6a07767f053af62</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="KoliBri">bdfb7d3c97907110a6a07767f053af62</sys_scope>
+        <sys_update_name>sys_ui_script_6b9df5fc97907110a6a07767f053afbc</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2023-08-18 16:58:20</sys_updated_on>
+        <ui_type>0</ui_type>
+        <use_scoped_format>false</use_scoped_format>
+    </sys_ui_script>
+</record_update>

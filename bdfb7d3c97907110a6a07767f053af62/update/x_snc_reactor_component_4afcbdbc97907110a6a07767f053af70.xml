@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="x_snc_reactor_component">
+    <x_snc_reactor_component action="INSERT_OR_UPDATE">
+        <content_css/>
+        <dependencies/>
+        <description>Loads the KoliBri components from the CDN.</description>
+        <jsx>false</jsx>
+        <module>true</module>
+        <name>KoliBriCDN</name>
+        <role>api</role>
+        <script><![CDATA[import { register } from "https://www.unpkg.com/@public-ui/components@1.5.3/dist/esm/index.js";        
+import { defineCustomElements } from "https://www.unpkg.com/@public-ui/components@1.5.3/dist/loader/index.js";         
+import { BMF, ECL_EC } from "https://www.unpkg.com/@public-ui/themes@1.5.3/dist/index.mjs";             
+register([BMF,ECL_EC], defineCustomElements, { theme: { detect: 'auto'} }).catch(console.warn);  
+]]></script>
+        <source_type>ui_script</source_type>
+        <sys_class_name>x_snc_reactor_component</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2023-07-25 11:34:45</sys_created_on>
+        <sys_id>4afcbdbc97907110a6a07767f053af70</sys_id>
+        <sys_mod_count>10</sys_mod_count>
+        <sys_name>KoliBriCDN</sys_name>
+        <sys_package display_value="KoliBri WORK IN PROGRESS" source="x_snc_kolibri">bdfb7d3c97907110a6a07767f053af62</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="KoliBri WORK IN PROGRESS">bdfb7d3c97907110a6a07767f053af62</sys_scope>
+        <sys_update_name>x_snc_reactor_component_4afcbdbc97907110a6a07767f053af70</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2023-08-18 12:08:04</sys_updated_on>
+        <type>script</type>
+        <ui_script display_value="x_snc_kolibri.KoliBriCDN">b5b779581bec3d10cd6153d16b4bcb3c</ui_script>
+        <url>https://cdn.jsdelivr.net/npm/@leanup/kolibri-react@1.0.5/cjs/index.min.js</url>
+    </x_snc_reactor_component>
+</record_update>
