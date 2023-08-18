@@ -2,19 +2,18 @@
     <x_snc_reactor_component action="INSERT_OR_UPDATE">
         <content_css/>
         <dependencies>4afcbdbc97907110a6a07767f053af70</dependencies>
-        <description/>
+        <description>A demo application to showcase the use of KoliBri components.</description>
         <jsx>true</jsx>
-        <module>false</module>
+        <module>true</module>
         <name>KolibriDemoApp</name>
         <role>app</role>
-        <script><![CDATA[//import { KolSpin } from '@public-ui/react';
-class KoliBriDemoApp extends ReactorComponent
+        <script><![CDATA[class KoliBriDemoApp extends ReactorComponent
 {
 	constructor(props)
 	{
 		super(props);
 		//this.state = { clicked: false };
-		//this.onClick = this.onClick.bind(this);
+		this.onClick = this.onClick.bind(this);
 	}
 
 	componentDidMount()
@@ -24,11 +23,9 @@ class KoliBriDemoApp extends ReactorComponent
 	componentWillUnmount()
 	{
 	}
-
-	/*
 	onClick()
 	{
-		this.setState( {clicked: true} );
+		/*this.setState( {clicked: true} );
 		if (typeof this.props.callbackOnClick == 'function')
 		{
 			this.props.callbackOnClick();
@@ -41,19 +38,12 @@ class KoliBriDemoApp extends ReactorComponent
 		{
 			DoModalMessage('New Reactor component','The button was clicked!');
 		}
+		*/
+		DoModalMessage('New Reactor component','The button was clicked!');
 	}
-	*/
 
 	render()
 	{
-		/*
-		return e('div',
-			{
-			},
-			[
-				e('kol-spin',{ _show: true },null)
-			]);
-		*/
 		
 		/*
 		
@@ -87,10 +77,12 @@ class KoliBriDemoApp extends ReactorComponent
 		return (
 			<div>
 				<h1>KoliBri Demo App</h1>
+				<h2>Theme BMF</h2>
 				<div data-theme="bmf">
 					<kol-spin _show/>
-					<kol-button _label="Test"/>
+					<kol-button _label="Test" onClick={ this.onClick }/>
 				</div>
+				<h2>Theme ECL-EC</h2>
 				<div data-theme="ecl-ec">
 					<kol-spin _show/>
 					<kol-button _label="Test"/>
@@ -108,14 +100,14 @@ class KoliBriDemoApp extends ReactorComponent
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2023-07-25 11:38:22</sys_created_on>
         <sys_id>15fd3dfc97907110a6a07767f053aff4</sys_id>
-        <sys_mod_count>9</sys_mod_count>
+        <sys_mod_count>11</sys_mod_count>
         <sys_name>KolibriDemoApp</sys_name>
         <sys_package display_value="KoliBri WORK IN PROGRESS" source="x_snc_kolibri">bdfb7d3c97907110a6a07767f053af62</sys_package>
         <sys_policy/>
         <sys_scope display_value="KoliBri WORK IN PROGRESS">bdfb7d3c97907110a6a07767f053af62</sys_scope>
         <sys_update_name>x_snc_reactor_component_15fd3dfc97907110a6a07767f053aff4</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2023-08-14 14:27:20</sys_updated_on>
+        <sys_updated_on>2023-08-18 12:11:17</sys_updated_on>
         <type>script</type>
         <ui_script display_value="x_snc_kolibri.KoliBriDemoApp">6b9df5fc97907110a6a07767f053afbc</ui_script>
         <url/>

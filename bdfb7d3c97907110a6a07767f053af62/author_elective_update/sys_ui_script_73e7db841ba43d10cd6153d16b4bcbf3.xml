@@ -1,0 +1,510 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ui_script">
+    <sys_ui_script action="DELETE">
+        <active>true</active>
+        <description/>
+        <global>false</global>
+        <ignore_in_now_experience>false</ignore_in_now_experience>
+        <name>x_snc_kolibri.KoliBriReact</name>
+        <script><![CDATA[//import React, { createElement } from 'react';
+//import 'react-dom';
+
+const dashToPascalCase = (str) => str.toLowerCase().split("-").map((segment) => segment.charAt(0).toUpperCase() + segment.slice(1)).join("");
+const camelToDashCase = (str) => str.replace(/([A-Z])/g, (m) => `-${m[0].toLowerCase()}`);
+
+const attachProps = (node, newProps, oldProps = {}) => {
+  if (node instanceof Element) {
+    const className = getClassName(node.classList, newProps, oldProps);
+    if (className !== "") {
+      node.className = className;
+    }
+    Object.keys(newProps).forEach((name) => {
+      if (name === "children" || name === "style" || name === "ref" || name === "class" || name === "className" || name === "forwardedRef") {
+        return;
+      }
+      if (name.indexOf("on") === 0 && name[2] === name[2].toUpperCase()) {
+        const eventName = name.substring(2);
+        const eventNameLc = eventName[0].toLowerCase() + eventName.substring(1);
+        if (!isCoveredByReact(eventNameLc)) {
+          syncEvent(node, eventNameLc, newProps[name]);
+        }
+      } else {
+        node[name] = newProps[name];
+        const propType = typeof newProps[name];
+        if (propType === "string") {
+          node.setAttribute(camelToDashCase(name), newProps[name]);
+        }
+      }
+    });
+  }
+};
+const getClassName = (classList, newProps, oldProps) => {
+  const newClassProp = newProps.className || newProps.class;
+  const oldClassProp = oldProps.className || oldProps.class;
+  const currentClasses = arrayToMap(classList);
+  const incomingPropClasses = arrayToMap(newClassProp ? newClassProp.split(" ") : []);
+  const oldPropClasses = arrayToMap(oldClassProp ? oldClassProp.split(" ") : []);
+  const finalClassNames = [];
+  currentClasses.forEach((currentClass) => {
+    if (incomingPropClasses.has(currentClass)) {
+      finalClassNames.push(currentClass);
+      incomingPropClasses.delete(currentClass);
+    } else if (!oldPropClasses.has(currentClass)) {
+      finalClassNames.push(currentClass);
+    }
+  });
+  incomingPropClasses.forEach((s) => finalClassNames.push(s));
+  return finalClassNames.join(" ");
+};
+/**
+ * Checks if an event is supported in the current execution environment.
+ * @license Modernizr 3.0.0pre (Custom Build) | MIT
+ */
+const isCoveredByReact = (eventNameSuffix) => {
+  if (typeof document === "undefined") {
+    return true;
+  } else {
+    const eventName = "on" + eventNameSuffix;
+    let isSupported = eventName in document;
+    if (!isSupported) {
+      const element = document.createElement("div");
+      element.setAttribute(eventName, "return;");
+      isSupported = typeof element[eventName] === "function";
+    }
+    return isSupported;
+  }
+};
+const syncEvent = (node, eventName, newEventHandler) => {
+  const eventStore = node.__events || (node.__events = {});
+  const oldEventHandler = eventStore[eventName];
+  if (oldEventHandler) {
+    node.removeEventListener(eventName, oldEventHandler);
+  }
+  node.addEventListener(
+    eventName,
+    eventStore[eventName] = function handler(e) {
+      if (newEventHandler) {
+        newEventHandler.call(this, e);
+      }
+    }
+  );
+};
+const arrayToMap = (arr) => {
+  const map = /* @__PURE__ */ new Map();
+  arr.forEach((s) => map.set(s, s));
+  return map;
+};
+
+const setRef = (ref, value) => {
+  if (typeof ref === "function") {
+    ref(value);
+  } else if (ref != null) {
+    ref.current = value;
+  }
+};
+const mergeRefs = (...refs) => {
+  return (value) => {
+    refs.forEach((ref) => {
+      setRef(ref, value);
+    });
+  };
+};
+const createForwardRef = (ReactComponent, displayName) => {
+  const forwardRef = (props, ref) => {
+    return /* @__PURE__ */ React.createElement(ReactComponent, { ...props, forwardedRef: ref });
+  };
+  forwardRef.displayName = displayName;
+  return React.forwardRef(forwardRef);
+};
+
+const createReactComponent = (tagName, ReactComponentContext, manipulatePropsFunction, defineCustomElement) => {
+  if (defineCustomElement !== void 0) {
+    defineCustomElement();
+  }
+  const displayName = dashToPascalCase(tagName);
+  const ReactComponent = class extends React.Component {
+    constructor(props) {
+      super(props);
+      this.setComponentElRef = (element) => {
+        this.componentEl = element;
+      };
+    }
+    componentDidMount() {
+      this.componentDidUpdate(this.props);
+    }
+    componentDidUpdate(prevProps) {
+      attachProps(this.componentEl, this.props, prevProps);
+    }
+    render() {
+      const { children, forwardedRef, style, className, ref, ...cProps } = this.props;
+      let propsToPass = Object.keys(cProps).reduce((acc, name) => {
+        const value = cProps[name];
+        if (name.indexOf("on") === 0 && name[2] === name[2].toUpperCase()) {
+          const eventName = name.substring(2).toLowerCase();
+          if (typeof document !== "undefined" && isCoveredByReact(eventName)) {
+            acc[name] = value;
+          }
+        } else {
+          const type = typeof value;
+          if (type === "string" || type === "boolean" || type === "number") {
+            acc[camelToDashCase(name)] = value;
+          }
+        }
+        return acc;
+      }, {});
+      if (manipulatePropsFunction) {
+        propsToPass = manipulatePropsFunction(this.props, propsToPass);
+      }
+      const newProps = {
+        ...propsToPass,
+        ref: mergeRefs(forwardedRef, this.setComponentElRef),
+        style
+      };
+      return React.createElement(tagName, newProps, children);
+    }
+    static get displayName() {
+      return displayName;
+    }
+  };
+  if (ReactComponentContext) {
+    ReactComponent.contextType = ReactComponentContext;
+  }
+  return createForwardRef(ReactComponent, displayName);
+};
+
+const KolAbbr = /* @__PURE__ */ createReactComponent("kol-abbr");
+const KolAccordion = /* @__PURE__ */ createReactComponent("kol-accordion");
+const KolAlert = /* @__PURE__ */ createReactComponent("kol-alert");
+const KolBadge = /* @__PURE__ */ createReactComponent("kol-badge");
+const KolBreadcrumb = /* @__PURE__ */ createReactComponent("kol-breadcrumb");
+const KolButton = /* @__PURE__ */ createReactComponent("kol-button");
+const KolButtonGroup = /* @__PURE__ */ createReactComponent("kol-button-group");
+const KolButtonGroupWc = /* @__PURE__ */ createReactComponent("kol-button-group-wc");
+const KolButtonLink = /* @__PURE__ */ createReactComponent("kol-button-link");
+const KolCard = /* @__PURE__ */ createReactComponent("kol-card");
+const KolDetails = /* @__PURE__ */ createReactComponent("kol-details");
+const KolForm = /* @__PURE__ */ createReactComponent("kol-form");
+const KolHeading = /* @__PURE__ */ createReactComponent("kol-heading");
+const KolIcon = /* @__PURE__ */ createReactComponent("kol-icon");
+const KolIconFontAwesome = /* @__PURE__ */ createReactComponent("kol-icon-font-awesome");
+const KolIconIcofont = /* @__PURE__ */ createReactComponent("kol-icon-icofont");
+const KolImage = /* @__PURE__ */ createReactComponent("kol-image");
+const KolIndentedText = /* @__PURE__ */ createReactComponent("kol-indented-text");
+const KolInputAdapterLeanup = /* @__PURE__ */ createReactComponent("kol-input-adapter-leanup");
+const KolInputCheckbox = /* @__PURE__ */ createReactComponent("kol-input-checkbox");
+const KolInputColor = /* @__PURE__ */ createReactComponent("kol-input-color");
+const KolInputDate = /* @__PURE__ */ createReactComponent("kol-input-date");
+const KolInputEmail = /* @__PURE__ */ createReactComponent("kol-input-email");
+const KolInputFile = /* @__PURE__ */ createReactComponent("kol-input-file");
+const KolInputNumber = /* @__PURE__ */ createReactComponent("kol-input-number");
+const KolInputPassword = /* @__PURE__ */ createReactComponent("kol-input-password");
+const KolInputRadio = /* @__PURE__ */ createReactComponent("kol-input-radio");
+const KolInputRange = /* @__PURE__ */ createReactComponent("kol-input-range");
+const KolInputText = /* @__PURE__ */ createReactComponent("kol-input-text");
+const KolKolibri = /* @__PURE__ */ createReactComponent("kol-kolibri");
+const KolLink = /* @__PURE__ */ createReactComponent("kol-link");
+const KolLinkButton = /* @__PURE__ */ createReactComponent("kol-link-button");
+const KolLinkGroup = /* @__PURE__ */ createReactComponent("kol-link-group");
+const KolLogo = /* @__PURE__ */ createReactComponent("kol-logo");
+const KolModal = /* @__PURE__ */ createReactComponent("kol-modal");
+const KolNav = /* @__PURE__ */ createReactComponent("kol-nav");
+const KolPagination = /* @__PURE__ */ createReactComponent("kol-pagination");
+const KolPopover = /* @__PURE__ */ createReactComponent("kol-popover");
+const KolProgress = /* @__PURE__ */ createReactComponent("kol-progress");
+const KolQuote = /* @__PURE__ */ createReactComponent("kol-quote");
+const KolSelect = /* @__PURE__ */ createReactComponent("kol-select");
+const KolSkipNav = /* @__PURE__ */ createReactComponent("kol-skip-nav");
+const KolSpan = /* @__PURE__ */ createReactComponent("kol-span");
+const KolSpin = /* @__PURE__ */ createReactComponent("kol-spin");
+const KolSplitButton = /* @__PURE__ */ createReactComponent("kol-split-button");
+const KolSymbol = /* @__PURE__ */ createReactComponent("kol-symbol");
+const KolTable = /* @__PURE__ */ createReactComponent("kol-table");
+const KolTabs = /* @__PURE__ */ createReactComponent("kol-tabs");
+const KolTextarea = /* @__PURE__ */ createReactComponent("kol-textarea");
+const KolToast = /* @__PURE__ */ createReactComponent("kol-toast");
+const KolTooltip = /* @__PURE__ */ createReactComponent("kol-tooltip");
+const KolVersion = /* @__PURE__ */ createReactComponent("kol-version");
+
+export { KolAbbr, KolAccordion, KolAlert, KolBadge, KolBreadcrumb, KolButton, KolButtonGroup, KolButtonGroupWc, KolButtonLink, KolCard, KolDetails, KolForm, KolHeading, KolIcon, KolIconFontAwesome, KolIconIcofont, KolImage, KolIndentedText, KolInputAdapterLeanup, KolInputCheckbox, KolInputColor, KolInputDate, KolInputEmail, KolInputFile, KolInputNumber, KolInputPassword, KolInputRadio, KolInputRange, KolInputText, KolKolibri, KolLink, KolLinkButton, KolLinkGroup, KolLogo, KolModal, KolNav, KolPagination, KolPopover, KolProgress, KolQuote, KolSelect, KolSkipNav, KolSpan, KolSpin, KolSplitButton, KolSymbol, KolTable, KolTabs, KolTextarea, KolToast, KolTooltip, KolVersion };
+]]></script>
+        <script_name>KoliBriReact</script_name>
+        <sys_class_name>sys_ui_script</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2023-08-04 20:32:07</sys_created_on>
+        <sys_id>73e7db841ba43d10cd6153d16b4bcbf3</sys_id>
+        <sys_mod_count>5</sys_mod_count>
+        <sys_name>x_snc_kolibri.KoliBriReact</sys_name>
+        <sys_package display_value="KoliBri WORK IN PROGRESS" source="x_snc_kolibri">bdfb7d3c97907110a6a07767f053af62</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="KoliBri WORK IN PROGRESS">bdfb7d3c97907110a6a07767f053af62</sys_scope>
+        <sys_update_name>sys_ui_script_73e7db841ba43d10cd6153d16b4bcbf3</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2023-08-04 21:30:54</sys_updated_on>
+        <ui_type>0</ui_type>
+        <use_scoped_format>false</use_scoped_format>
+    </sys_ui_script>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="KoliBri WORK IN PROGRESS">bdfb7d3c97907110a6a07767f053af62</application>
+        <file_path/>
+        <instance_id>84975bb2db8d919c4d2bac44d4961989</instance_id>
+        <instance_name>wildgrubetokyo</instance_name>
+        <name>sys_ui_script_73e7db841ba43d10cd6153d16b4bcbf3</name>
+        <payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update table="sys_ui_script"&gt;&lt;sys_ui_script action="INSERT_OR_UPDATE"&gt;&lt;active&gt;true&lt;/active&gt;&lt;description/&gt;&lt;global&gt;false&lt;/global&gt;&lt;ignore_in_now_experience&gt;false&lt;/ignore_in_now_experience&gt;&lt;name&gt;x_snc_kolibri.KoliBriReact&lt;/name&gt;&lt;script&gt;&lt;![CDATA[//import React, { createElement } from 'react';
+//import 'react-dom';
+
+const dashToPascalCase = (str) =&gt; str.toLowerCase().split("-").map((segment) =&gt; segment.charAt(0).toUpperCase() + segment.slice(1)).join("");
+const camelToDashCase = (str) =&gt; str.replace(/([A-Z])/g, (m) =&gt; `-${m[0].toLowerCase()}`);
+
+const attachProps = (node, newProps, oldProps = {}) =&gt; {
+  if (node instanceof Element) {
+    const className = getClassName(node.classList, newProps, oldProps);
+    if (className !== "") {
+      node.className = className;
+    }
+    Object.keys(newProps).forEach((name) =&gt; {
+      if (name === "children" || name === "style" || name === "ref" || name === "class" || name === "className" || name === "forwardedRef") {
+        return;
+      }
+      if (name.indexOf("on") === 0 &amp;&amp; name[2] === name[2].toUpperCase()) {
+        const eventName = name.substring(2);
+        const eventNameLc = eventName[0].toLowerCase() + eventName.substring(1);
+        if (!isCoveredByReact(eventNameLc)) {
+          syncEvent(node, eventNameLc, newProps[name]);
+        }
+      } else {
+        node[name] = newProps[name];
+        const propType = typeof newProps[name];
+        if (propType === "string") {
+          node.setAttribute(camelToDashCase(name), newProps[name]);
+        }
+      }
+    });
+  }
+};
+const getClassName = (classList, newProps, oldProps) =&gt; {
+  const newClassProp = newProps.className || newProps.class;
+  const oldClassProp = oldProps.className || oldProps.class;
+  const currentClasses = arrayToMap(classList);
+  const incomingPropClasses = arrayToMap(newClassProp ? newClassProp.split(" ") : []);
+  const oldPropClasses = arrayToMap(oldClassProp ? oldClassProp.split(" ") : []);
+  const finalClassNames = [];
+  currentClasses.forEach((currentClass) =&gt; {
+    if (incomingPropClasses.has(currentClass)) {
+      finalClassNames.push(currentClass);
+      incomingPropClasses.delete(currentClass);
+    } else if (!oldPropClasses.has(currentClass)) {
+      finalClassNames.push(currentClass);
+    }
+  });
+  incomingPropClasses.forEach((s) =&gt; finalClassNames.push(s));
+  return finalClassNames.join(" ");
+};
+/**
+ * Checks if an event is supported in the current execution environment.
+ * @license Modernizr 3.0.0pre (Custom Build) | MIT
+ */
+const isCoveredByReact = (eventNameSuffix) =&gt; {
+  if (typeof document === "undefined") {
+    return true;
+  } else {
+    const eventName = "on" + eventNameSuffix;
+    let isSupported = eventName in document;
+    if (!isSupported) {
+      const element = document.createElement("div");
+      element.setAttribute(eventName, "return;");
+      isSupported = typeof element[eventName] === "function";
+    }
+    return isSupported;
+  }
+};
+const syncEvent = (node, eventName, newEventHandler) =&gt; {
+  const eventStore = node.__events || (node.__events = {});
+  const oldEventHandler = eventStore[eventName];
+  if (oldEventHandler) {
+    node.removeEventListener(eventName, oldEventHandler);
+  }
+  node.addEventListener(
+    eventName,
+    eventStore[eventName] = function handler(e) {
+      if (newEventHandler) {
+        newEventHandler.call(this, e);
+      }
+    }
+  );
+};
+const arrayToMap = (arr) =&gt; {
+  const map = /* @__PURE__ */ new Map();
+  arr.forEach((s) =&gt; map.set(s, s));
+  return map;
+};
+
+const setRef = (ref, value) =&gt; {
+  if (typeof ref === "function") {
+    ref(value);
+  } else if (ref != null) {
+    ref.current = value;
+  }
+};
+const mergeRefs = (...refs) =&gt; {
+  return (value) =&gt; {
+    refs.forEach((ref) =&gt; {
+      setRef(ref, value);
+    });
+  };
+};
+const createForwardRef = (ReactComponent, displayName) =&gt; {
+  const forwardRef = (props, ref) =&gt; {
+    return /* @__PURE__ */ React.createElement(ReactComponent, { ...props, forwardedRef: ref });
+  };
+  forwardRef.displayName = displayName;
+  return React.forwardRef(forwardRef);
+};
+
+const createReactComponent = (tagName, ReactComponentContext, manipulatePropsFunction, defineCustomElement) =&gt; {
+  if (defineCustomElement !== void 0) {
+    defineCustomElement();
+  }
+  const displayName = dashToPascalCase(tagName);
+  const ReactComponent = class extends React.Component {
+    constructor(props) {
+      super(props);
+      this.setComponentElRef = (element) =&gt; {
+        this.componentEl = element;
+      };
+    }
+    componentDidMount() {
+      this.componentDidUpdate(this.props);
+    }
+    componentDidUpdate(prevProps) {
+      attachProps(this.componentEl, this.props, prevProps);
+    }
+    render() {
+      const { children, forwardedRef, style, className, ref, ...cProps } = this.props;
+      let propsToPass = Object.keys(cProps).reduce((acc, name) =&gt; {
+        const value = cProps[name];
+        if (name.indexOf("on") === 0 &amp;&amp; name[2] === name[2].toUpperCase()) {
+          const eventName = name.substring(2).toLowerCase();
+          if (typeof document !== "undefined" &amp;&amp; isCoveredByReact(eventName)) {
+            acc[name] = value;
+          }
+        } else {
+          const type = typeof value;
+          if (type === "string" || type === "boolean" || type === "number") {
+            acc[camelToDashCase(name)] = value;
+          }
+        }
+        return acc;
+      }, {});
+      if (manipulatePropsFunction) {
+        propsToPass = manipulatePropsFunction(this.props, propsToPass);
+      }
+      const newProps = {
+        ...propsToPass,
+        ref: mergeRefs(forwardedRef, this.setComponentElRef),
+        style
+      };
+      return React.createElement(tagName, newProps, children);
+    }
+    static get displayName() {
+      return displayName;
+    }
+  };
+  if (ReactComponentContext) {
+    ReactComponent.contextType = ReactComponentContext;
+  }
+  return createForwardRef(ReactComponent, displayName);
+};
+
+const KolAbbr = /* @__PURE__ */ createReactComponent("kol-abbr");
+const KolAccordion = /* @__PURE__ */ createReactComponent("kol-accordion");
+const KolAlert = /* @__PURE__ */ createReactComponent("kol-alert");
+const KolBadge = /* @__PURE__ */ createReactComponent("kol-badge");
+const KolBreadcrumb = /* @__PURE__ */ createReactComponent("kol-breadcrumb");
+const KolButton = /* @__PURE__ */ createReactComponent("kol-button");
+const KolButtonGroup = /* @__PURE__ */ createReactComponent("kol-button-group");
+const KolButtonGroupWc = /* @__PURE__ */ createReactComponent("kol-button-group-wc");
+const KolButtonLink = /* @__PURE__ */ createReactComponent("kol-button-link");
+const KolCard = /* @__PURE__ */ createReactComponent("kol-card");
+const KolDetails = /* @__PURE__ */ createReactComponent("kol-details");
+const KolForm = /* @__PURE__ */ createReactComponent("kol-form");
+const KolHeading = /* @__PURE__ */ createReactComponent("kol-heading");
+const KolIcon = /* @__PURE__ */ createReactComponent("kol-icon");
+const KolIconFontAwesome = /* @__PURE__ */ createReactComponent("kol-icon-font-awesome");
+const KolIconIcofont = /* @__PURE__ */ createReactComponent("kol-icon-icofont");
+const KolImage = /* @__PURE__ */ createReactComponent("kol-image");
+const KolIndentedText = /* @__PURE__ */ createReactComponent("kol-indented-text");
+const KolInputAdapterLeanup = /* @__PURE__ */ createReactComponent("kol-input-adapter-leanup");
+const KolInputCheckbox = /* @__PURE__ */ createReactComponent("kol-input-checkbox");
+const KolInputColor = /* @__PURE__ */ createReactComponent("kol-input-color");
+const KolInputDate = /* @__PURE__ */ createReactComponent("kol-input-date");
+const KolInputEmail = /* @__PURE__ */ createReactComponent("kol-input-email");
+const KolInputFile = /* @__PURE__ */ createReactComponent("kol-input-file");
+const KolInputNumber = /* @__PURE__ */ createReactComponent("kol-input-number");
+const KolInputPassword = /* @__PURE__ */ createReactComponent("kol-input-password");
+const KolInputRadio = /* @__PURE__ */ createReactComponent("kol-input-radio");
+const KolInputRange = /* @__PURE__ */ createReactComponent("kol-input-range");
+const KolInputText = /* @__PURE__ */ createReactComponent("kol-input-text");
+const KolKolibri = /* @__PURE__ */ createReactComponent("kol-kolibri");
+const KolLink = /* @__PURE__ */ createReactComponent("kol-link");
+const KolLinkButton = /* @__PURE__ */ createReactComponent("kol-link-button");
+const KolLinkGroup = /* @__PURE__ */ createReactComponent("kol-link-group");
+const KolLogo = /* @__PURE__ */ createReactComponent("kol-logo");
+const KolModal = /* @__PURE__ */ createReactComponent("kol-modal");
+const KolNav = /* @__PURE__ */ createReactComponent("kol-nav");
+const KolPagination = /* @__PURE__ */ createReactComponent("kol-pagination");
+const KolPopover = /* @__PURE__ */ createReactComponent("kol-popover");
+const KolProgress = /* @__PURE__ */ createReactComponent("kol-progress");
+const KolQuote = /* @__PURE__ */ createReactComponent("kol-quote");
+const KolSelect = /* @__PURE__ */ createReactComponent("kol-select");
+const KolSkipNav = /* @__PURE__ */ createReactComponent("kol-skip-nav");
+const KolSpan = /* @__PURE__ */ createReactComponent("kol-span");
+const KolSpin = /* @__PURE__ */ createReactComponent("kol-spin");
+const KolSplitButton = /* @__PURE__ */ createReactComponent("kol-split-button");
+const KolSymbol = /* @__PURE__ */ createReactComponent("kol-symbol");
+const KolTable = /* @__PURE__ */ createReactComponent("kol-table");
+const KolTabs = /* @__PURE__ */ createReactComponent("kol-tabs");
+const KolTextarea = /* @__PURE__ */ createReactComponent("kol-textarea");
+const KolToast = /* @__PURE__ */ createReactComponent("kol-toast");
+const KolTooltip = /* @__PURE__ */ createReactComponent("kol-tooltip");
+const KolVersion = /* @__PURE__ */ createReactComponent("kol-version");
+
+export { KolAbbr, KolAccordion, KolAlert, KolBadge, KolBreadcrumb, KolButton, KolButtonGroup, KolButtonGroupWc, KolButtonLink, KolCard, KolDetails, KolForm, KolHeading, KolIcon, KolIconFontAwesome, KolIconIcofont, KolImage, KolIndentedText, KolInputAdapterLeanup, KolInputCheckbox, KolInputColor, KolInputDate, KolInputEmail, KolInputFile, KolInputNumber, KolInputPassword, KolInputRadio, KolInputRange, KolInputText, KolKolibri, KolLink, KolLinkButton, KolLinkGroup, KolLogo, KolModal, KolNav, KolPagination, KolPopover, KolProgress, KolQuote, KolSelect, KolSkipNav, KolSpan, KolSpin, KolSplitButton, KolSymbol, KolTable, KolTabs, KolTextarea, KolToast, KolTooltip, KolVersion };
+]]&gt;&lt;/script&gt;&lt;script_name&gt;KoliBriReact&lt;/script_name&gt;&lt;sys_class_name&gt;sys_ui_script&lt;/sys_class_name&gt;&lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2023-08-04 20:32:07&lt;/sys_created_on&gt;&lt;sys_id&gt;73e7db841ba43d10cd6153d16b4bcbf3&lt;/sys_id&gt;&lt;sys_mod_count&gt;5&lt;/sys_mod_count&gt;&lt;sys_name&gt;x_snc_kolibri.KoliBriReact&lt;/sys_name&gt;&lt;sys_package display_value="KoliBri WORK IN PROGRESS" source="x_snc_kolibri"&gt;bdfb7d3c97907110a6a07767f053af62&lt;/sys_package&gt;&lt;sys_policy/&gt;&lt;sys_scope display_value="KoliBri WORK IN PROGRESS"&gt;bdfb7d3c97907110a6a07767f053af62&lt;/sys_scope&gt;&lt;sys_update_name&gt;sys_ui_script_73e7db841ba43d10cd6153d16b4bcbf3&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2023-08-04 21:30:54&lt;/sys_updated_on&gt;&lt;ui_type&gt;0&lt;/ui_type&gt;&lt;use_scoped_format&gt;false&lt;/use_scoped_format&gt;&lt;/sys_ui_script&gt;&lt;/record_update&gt;</payload>
+        <payload_hash>-1347592281</payload_hash>
+        <record_name>x_snc_kolibri.KoliBriReact</record_name>
+        <reverted_from/>
+        <source>5e5cb1bc97907110a6a07767f053af6d</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2023-08-04 21:30:54</sys_created_on>
+        <sys_id>c895a3041b683d10cd6153d16b4bcba2</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>189c275e7550000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2023-08-04 21:30:54</sys_updated_on>
+        <type>UI Script</type>
+        <update_guid>0495efc041683d1046d70d38cfb9dc16</update_guid>
+        <update_guid_history>0495efc041683d1046d70d38cfb9dc16:-1347592281,ac4a5f8caba43d1083949d5ff56d9eae:-1486228537,e6e91b8c67a43d10f918e8fccea78b2b:-244613864,a5d9978caea43d10976c18f0272003e5:1715616120,05f8d348a6a43d10980b533ed739288b:-98111176,c718938401a43d108208671a034f2bf7:-1539883894</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete/>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2023-08-18 12:09:24</sys_created_on>
+        <sys_db_object display_value="" name="sys_ui_script">sys_ui_script</sys_db_object>
+        <sys_id>164fbf8852834dcb9203b2fb40ef4509</sys_id>
+        <sys_metadata>73e7db841ba43d10cd6153d16b4bcbf3</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_snc_kolibri.KoliBriReact</sys_name>
+        <sys_package display_value="KoliBri WORK IN PROGRESS" source="x_snc_kolibri">bdfb7d3c97907110a6a07767f053af62</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="KoliBri WORK IN PROGRESS">bdfb7d3c97907110a6a07767f053af62</sys_scope>
+        <sys_scope_delete display_value="">34ee4c634c204c8e8b058593e4e26ae4</sys_scope_delete>
+        <sys_update_name>sys_ui_script_73e7db841ba43d10cd6153d16b4bcbf3</sys_update_name>
+        <sys_update_version display_value="sys_ui_script_73e7db841ba43d10cd6153d16b4bcbf3">c895a3041b683d10cd6153d16b4bcba2</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2023-08-18 12:09:24</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

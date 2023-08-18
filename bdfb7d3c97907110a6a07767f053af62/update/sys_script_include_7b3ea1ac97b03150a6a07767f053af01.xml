@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_snc_kolibri.GetLinkDirectoryKoliBri</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description>Provides helpful links for KoliBri</description>
+        <name>GetLinkDirectoryKoliBri</name>
+        <script><![CDATA[function GetLinkDirectoryKoliBri()
+{
+	var linkdirectory = {};
+	linkdirectory = DevToolsGetLinkDirectory(linkdirectory);
+	return linkdirectory;
+}]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2023-08-18 12:23:09</sys_created_on>
+        <sys_id>7b3ea1ac97b03150a6a07767f053af01</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>GetLinkDirectoryKoliBri</sys_name>
+        <sys_package display_value="KoliBri WORK IN PROGRESS" source="x_snc_kolibri">bdfb7d3c97907110a6a07767f053af62</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="KoliBri WORK IN PROGRESS">bdfb7d3c97907110a6a07767f053af62</sys_scope>
+        <sys_update_name>sys_script_include_7b3ea1ac97b03150a6a07767f053af01</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2023-08-18 12:23:24</sys_updated_on>
+    </sys_script_include>
+</record_update>
