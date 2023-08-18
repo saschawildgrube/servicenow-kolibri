@@ -16,6 +16,10 @@
 			url: 'https://public-ui.github.io/'
 		},
 		{
+			title: 'Cheat Sheet',
+			url: 'https://public-ui.github.io/cheat-sheet/'
+		},
+		{
 			url: 'https://github.com/public-ui/kolibri'
 		},
 		{
@@ -30,13 +34,13 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2023-07-25 12:45:22</sys_created_on>
         <sys_id>d06d4efc97d07110a6a07767f053afa8</sys_id>
-        <sys_mod_count>7</sys_mod_count>
+        <sys_mod_count>8</sys_mod_count>
         <sys_name>DevToolsGetLinkDirectory</sys_name>
         <sys_package display_value="KoliBri WORK IN PROGRESS" source="x_snc_kolibri">bdfb7d3c97907110a6a07767f053af62</sys_package>
         <sys_policy/>
         <sys_scope display_value="KoliBri WORK IN PROGRESS">bdfb7d3c97907110a6a07767f053af62</sys_scope>
         <sys_update_name>sys_script_include_d06d4efc97d07110a6a07767f053afa8</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2023-08-18 12:20:15</sys_updated_on>
+        <sys_updated_on>2023-08-18 16:37:38</sys_updated_on>
     </sys_script_include>
 </record_update>
