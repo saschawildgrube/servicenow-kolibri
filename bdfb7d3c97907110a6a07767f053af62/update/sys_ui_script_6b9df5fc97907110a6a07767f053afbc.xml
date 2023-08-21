@@ -20,12 +20,7 @@
 			theme: strTheme
 		};
 		//BindAllFunctionsToThis(this);
-		this.onClickThemeDE = this.onClickThemeDE.bind(this);
-		this.onClickThemeITZBUND = this.onClickThemeITZBUND.bind(this);
-		this.onClickThemeBMF = this.onClickThemeBMF.bind(this);
-		this.onClickThemeECLEC = this.onClickThemeECLEC.bind(this);
-		this.onClickThemeECLEU = this.onClickThemeECLEU.bind(this);
-
+		this.onClickTheme = this.onClickTheme.bind(this);
 	}
 
 	componentDidMount()
@@ -35,47 +30,50 @@
 	componentWillUnmount()
 	{
 	}
-	
-	onClickThemeDE()
+
+	onClickTheme(strTheme)
 	{
-		this.setState( {theme: 'de', state: 'changetheme' } );
+		this.setState( {theme: strTheme, state: 'changetheme' } );
 	}
-	onClickThemeITZBUND()
-	{
-		this.setState( {theme: 'itzbund', state: 'changetheme' } );
-	}
-	onClickThemeBMF()
-	{
-		this.setState( { theme: 'bmf', state: 'changetheme' } );
-	}	
-	onClickThemeECLEC()
-	{
-		this.setState( { theme: 'ecl-ec', state: 'changetheme' } );
-	}	
-	onClickThemeECLEU()
-	{
-		this.setState( { theme: 'ecl-eu', state: 'changetheme' } );
-	}	
 	
+		
 	stateStart()
 	{
 		return (
 			<div data-theme={ this.state.theme }>
 				<kol-heading _level="1" _label="KoliBri Demo App"></kol-heading>
-				<kol-button _label="BMF" _value="itzbund" onClick={ this.onClickThemeBMF }/>
-				<kol-button _label="DE" _value="itzbund" onClick={ this.onClickThemeDE }/>
-				<kol-button _label="ITZBund" _value="itzbund" onClick={ this.onClickThemeITZBUND }/>
-				<kol-button _label="ECL_EC" _value="ecl-ec" onClick={ this.onClickThemeECLEC }/>
-				<kol-button _label="ECL_EU" _value="ecl-eu" onClick={ this.onClickThemeECLEU }/>
-			
+				<kol-button _label="BAMF" _value="bamf" onClick={ () => this.onClickTheme('bamf') }/>
+				<kol-button _label="BMF" onClick={ () => this.onClickTheme('bmf') }/>
+				<kol-button _label="BPA" onClick={ () => this.onClickTheme('bpa') }/>
+				<kol-button _label="BZSt" onClick={ () => this.onClickTheme('bzst') }/>
+				<kol-button _label="DE" onClick={ () => this.onClickTheme('de') }/>
+				<kol-button _label="DESYv1" onClick={ () => this.onClickTheme('desy-v1') }/>
+				<kol-button _label="DESYv2" onClick={ () => this.onClickTheme('desy-v2') }/>
+				<kol-button _label="ECL_EC" onClick={ () => this.onClickTheme('ecl-ec') }/>
+				<kol-button _label="ECL_EU" onClick={ () => this.onClickTheme('ecl-eu') }/>
+				<kol-button _label="EN" onClick={ () => this.onClickTheme('en') }/>
+				<kol-button _label="ITZBund" onClick={ () => this.onClickTheme('itzbund') }/>
+				<kol-button _label="MAPZ" onClick={ () => this.onClickTheme('mapz') }/>
+				<kol-button _label="ZOLLv2" onClick={ () => this.onClickTheme('zoll-v2') }/>
+
+	
 				<kol-heading _level="2" _label="Alert"></kol-heading>
-				<kol-alert _label="Überschrift im Alert" _level="1" _type="success" _variant="msg">Textbereich im Alert</kol-alert>
-				<kol-alert _label="Überschrift im Alert" _level="2" _type="info" _variant="card">Textbereich im Alert</kol-alert>					
+				<kol-alert _label="Alert Header" _level="1" _type="success" _variant="msg">Alert text area.</kol-alert>
+				<kol-alert _label="Alert Header" _level="2" _type="info" _variant="card">Alert text area.</kol-alert>					
 					
 				<kol-heading _level="2" _label="Breadcrump"></kol-heading>
-				<kol-breadcrumb _links='[{"_label":"Startseite","_href":"#/"},{"_label":"Unterseite von Startseite","_href":"#/unterseite"}]'></kol-breadcrumb>
+				<kol-breadcrumb _links='[{"_label":"Start","_href":"#/"},{"_label":"Sub page","_href":"#/page1"}]'></kol-breadcrumb>
 				<kol-heading _level="2" _label="Button"></kol-heading>
-				<kol-button _label="Test" onClick={ this.onClick }/>
+				<kol-button _label="Click me!" onClick={ this.onClick }/>
+					
+				<kol-heading _level="2" _label="Card"></kol-heading>
+					
+				<kol-card _label="Example" _hasFooter="true" _level="1">
+					<div slot="header">Text in header area</div>
+					<div slot="content">Text in content area</div>
+					<div slot="footer">Text in footer area</div>
+				</kol-card>					
+					
 				<kol-heading _level="2" _label="Spin"></kol-heading>
 				<kol-spin _show/>
 					
@@ -136,14 +134,14 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2023-07-25 11:36:58</sys_created_on>
         <sys_id>6b9df5fc97907110a6a07767f053afbc</sys_id>
-        <sys_mod_count>86</sys_mod_count>
+        <sys_mod_count>102</sys_mod_count>
         <sys_name>x_snc_kolibri.KoliBriDemoApp</sys_name>
-        <sys_package display_value="KoliBri" source="x_snc_kolibri">bdfb7d3c97907110a6a07767f053af62</sys_package>
+        <sys_package display_value="KoliBri WORK IN PROGRESS" source="x_snc_kolibri">bdfb7d3c97907110a6a07767f053af62</sys_package>
         <sys_policy/>
-        <sys_scope display_value="KoliBri">bdfb7d3c97907110a6a07767f053af62</sys_scope>
+        <sys_scope display_value="KoliBri WORK IN PROGRESS">bdfb7d3c97907110a6a07767f053af62</sys_scope>
         <sys_update_name>sys_ui_script_6b9df5fc97907110a6a07767f053afbc</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2023-08-18 16:58:20</sys_updated_on>
+        <sys_updated_on>2023-08-21 12:59:41</sys_updated_on>
         <ui_type>0</ui_type>
         <use_scoped_format>false</use_scoped_format>
     </sys_ui_script>
