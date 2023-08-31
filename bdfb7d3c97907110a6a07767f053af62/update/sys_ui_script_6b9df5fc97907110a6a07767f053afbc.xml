@@ -77,12 +77,23 @@
 				<KolButton _label="Click me!" _on={{ onClick: this.onClick }}/>
 					
 				<KolHeading _level="2" _label="Card" />
-					
 				<KolCard _label="A Card" _hasFooter="true" _level="1">
 					<div slot="header">Text in header area</div>
 					<div slot="content">Text in content area</div>
 					<div slot="footer">Text in footer area</div>
 				</KolCard>					
+
+				<KolHeading _level="2" _label="Form" />
+				<KolForm>
+					<KolSelect
+						_options="[{'label':'Alpha','value':'0'},{'label':'Beta','value':'1'},{'label':'Gamma','value':'2'}]"
+						_value="['1']"
+						/>
+					<KolInputText
+						_type="text"
+						_label="Input"
+						/>
+				</KolForm>
 					
 				<KolHeading _level="2" _label="Spin"/>
 				<KolSpin _show/>
@@ -118,14 +129,14 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2023-07-25 11:36:58</sys_created_on>
         <sys_id>6b9df5fc97907110a6a07767f053afbc</sys_id>
-        <sys_mod_count>116</sys_mod_count>
+        <sys_mod_count>119</sys_mod_count>
         <sys_name>x_snc_kolibri.KoliBriDemoApp</sys_name>
         <sys_package display_value="KoliBri WORK IN PROGRESS" source="x_snc_kolibri">bdfb7d3c97907110a6a07767f053af62</sys_package>
         <sys_policy/>
         <sys_scope display_value="KoliBri WORK IN PROGRESS">bdfb7d3c97907110a6a07767f053af62</sys_scope>
         <sys_update_name>sys_ui_script_6b9df5fc97907110a6a07767f053afbc</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2023-08-31 15:18:37</sys_updated_on>
+        <sys_updated_on>2023-08-31 15:27:22</sys_updated_on>
         <ui_type>0</ui_type>
         <use_scoped_format>false</use_scoped_format>
     </sys_ui_script>
