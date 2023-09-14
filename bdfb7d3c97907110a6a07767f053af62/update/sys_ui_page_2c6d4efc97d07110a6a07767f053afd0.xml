@@ -21,9 +21,6 @@
 		docapi.RenderDescription();
 	]</g2:no_escape>
 	
-<!--<h2>Features</h2> 
-	<p>TODO: Document the features of the app here...</p>
--->
 	<h2>Disclaimer</h2>
 	<g2:no_escape>$[docapi.RenderDisclaimer()]</g2:no_escape>	
 	
@@ -63,6 +60,22 @@
 		]</g2:no_escape>		
 		<!--<li>TODO: Add further steps required for installation...</li>-->
 	</ol>
+	
+	<h2>Setting up a new React app using the KoliBri framework</h2>
+	<ol>
+		<li>Create a new UI Script to contain the main React component.</li>
+		<li>Use the syntax editor macro "react" to get started.</li>
+		<li>Create a Reactor Component and refer to the UI Script. The component name and the class name of the React component must be identical.</li>
+		<li>Create a UI Page and add the following code into the html body:
+			<pre>
+				<g2:no_escape>$[
+					x_snc_kolibri.GetUIPageDemoScript();	
+				]</g2:no_escape>					
+			</pre>
+		</li>
+		<li>Ajust the code for your new React component.</li>
+		<li>Test the UI page.</li>
+	</ol>	
 	
 	<g2:no_escape>$[x_snc_devtools.HtmlRenderLinkDirectory(GetLinkDirectoryKoliBri())]</g2:no_escape>
 	
@@ -113,6 +126,7 @@
 
 	<h3>1.1.0 - 2023-TODO</h3>
 	<ol>
+		<li>DevTools 1.67.0 and Reactor 1.5 are now required.</li>
 		<li>Now using KoliBri 1.6.2.</li>
 		<li>Added support for KoliBri react components.</li>
 		<li>Always loading the DEFAULT theme.</li>
@@ -132,13 +146,13 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2023-07-25 12:45:23</sys_created_on>
         <sys_id>2c6d4efc97d07110a6a07767f053afd0</sys_id>
-        <sys_mod_count>13</sys_mod_count>
+        <sys_mod_count>16</sys_mod_count>
         <sys_name>manual</sys_name>
         <sys_package display_value="KoliBri WORK IN PROGRESS" source="x_snc_kolibri">bdfb7d3c97907110a6a07767f053af62</sys_package>
         <sys_policy/>
         <sys_scope display_value="KoliBri WORK IN PROGRESS">bdfb7d3c97907110a6a07767f053af62</sys_scope>
         <sys_update_name>sys_ui_page_2c6d4efc97d07110a6a07767f053afd0</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2023-08-31 15:21:15</sys_updated_on>
+        <sys_updated_on>2023-09-14 13:31:55</sys_updated_on>
     </sys_ui_page>
 </record_update>

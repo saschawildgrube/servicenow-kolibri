@@ -15,6 +15,10 @@
 		{
 			strTheme = 'default';
 		}
+		
+		// Currently, only the default theme is supported
+		strTheme = 'default';
+		
 		this.state = {
 			state: 'start',
 			theme: strTheme
@@ -30,35 +34,32 @@
 	{
 	}
 
-	/*
-	onClickTheme(strTheme)
+	onClickChangeTheme(strTheme)
 	{
-		console.log('onClickTheme("'+strTheme+'")');
+		// Changing the theme is not supported at the moment
+		strTheme = 'default';
 		this.setState( {theme: strTheme, state: 'changetheme' } );
 	}
-	*/
 	
 		
 	stateStart()
 	{
-		/*
+		/* Changing the theme is currently not supported
 				<KolButton _label="DEFAULT" _value="default" _on={{ onClick: () => this.onClickTheme('default') }}/>
 				<KolButton _label="BAMF" _value="bamf" _on={{ onClick: () => this.onClickTheme('bamf') }}/>
 				<KolButton _label="BMF" _value="bamf" _on={{ onClick: () => this.onClickTheme('bmf') }}/>
-				
-				<kol-button _label="BPA" onClick={ () => this.onClickTheme('bpa') }/>
-				<kol-button _label="BZSt" onClick={ () => this.onClickTheme('bzst') }/>
-				<kol-button _label="DE" onClick={ () => this.onClickTheme('de') }/>
-				<kol-button _label="DESYv1" onClick={ () => this.onClickTheme('desy-v1') }/>
-				<kol-button _label="DESYv2" onClick={ () => this.onClickTheme('desy-v2') }/>
-				<kol-button _label="ECL_EC" onClick={ () => this.onClickTheme('ecl-ec') }/>
-				<kol-button _label="ECL_EU" onClick={ () => this.onClickTheme('ecl-eu') }/>
-				<kol-button _label="EN" onClick={ () => this.onClickTheme('en') }/>
-				<kol-button _label="ITZBund" onClick={ () => this.onClickTheme('itzbund') }/>
-				<kol-button _label="MAPZ" onClick={ () => this.onClickTheme('mapz') }/>
-				<kol-button _label="ZOLLv2" onClick={ () => this.onClickTheme('zoll-v2') }/>
+				<KolButton _label="BPA" onClick={ () => this.onClickTheme('bpa') }/>
+				<KolButton _label="BZSt" onClick={ () => this.onClickTheme('bzst') }/>
+				<KolButton _label="DE" onClick={ () => this.onClickTheme('de') }/>
+				<KolButton _label="DESYv1" onClick={ () => this.onClickTheme('desy-v1') }/>
+				<KolButton _label="DESYv2" onClick={ () => this.onClickTheme('desy-v2') }/>
+				<KolButton _label="ECL_EC" onClick={ () => this.onClickTheme('ecl-ec') }/>
+				<KolButton _label="ECL_EU" onClick={ () => this.onClickTheme('ecl-eu') }/>
+				<KolButton _label="EN" onClick={ () => this.onClickTheme('en') }/>
+				<KolButton _label="ITZBund" onClick={ () => this.onClickTheme('itzbund') }/>
+				<KolButton _label="MAPZ" onClick={ () => this.onClickTheme('mapz') }/>
+				<KolButton _label="ZOLLv2" onClick={ () => this.onClickTheme('zoll-v2') }/>
 		*/
-		
 		
 		return (
 			<div data-theme={ this.state.theme }>
@@ -113,12 +114,10 @@
 	
 	render()
 	{
-		
 		if (this.state.state == 'changetheme')
 		{
 			return this.stateChangeTheme();
 		}
-		
 		return this.stateStart();
 
 	}	
@@ -128,14 +127,14 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2023-07-25 11:36:58</sys_created_on>
         <sys_id>6b9df5fc97907110a6a07767f053afbc</sys_id>
-        <sys_mod_count>120</sys_mod_count>
+        <sys_mod_count>121</sys_mod_count>
         <sys_name>x_snc_kolibri.KoliBriDemoApp</sys_name>
         <sys_package display_value="KoliBri WORK IN PROGRESS" source="x_snc_kolibri">bdfb7d3c97907110a6a07767f053af62</sys_package>
         <sys_policy/>
         <sys_scope display_value="KoliBri WORK IN PROGRESS">bdfb7d3c97907110a6a07767f053af62</sys_scope>
         <sys_update_name>sys_ui_script_6b9df5fc97907110a6a07767f053afbc</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2023-09-14 13:19:26</sys_updated_on>
+        <sys_updated_on>2023-09-14 13:25:27</sys_updated_on>
         <ui_type>0</ui_type>
         <use_scoped_format>false</use_scoped_format>
     </sys_ui_script>
